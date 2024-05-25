@@ -2,23 +2,23 @@
 
 ## SQL Query
 
-#-- Check Data (Top 10):
+### Check Data (Top 10):
 
 SELECT TOP (10) *
 FROM NashvilleHousing
 
--- Check the Structure of the Table:
+### Check the Structure of the Table:
 
 SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'NashvilleHousing'
 
--- Count Data:
+### Count Data:
 
 SELECT COUNT (*)
 FROM NashvilleHousing
 
--- Check for Missing Values:
+### Check for Missing Values:
 
 SELECT 
 
@@ -39,7 +39,7 @@ SELECT
  
 FROM NashvilleHousing
 
--- Standardize Date Format:
+### Standardize Date Format:
 
 SELECT SaleDate2, CONVERT (date, SaleDate)
 FROM NashvilleHousing
@@ -58,7 +58,7 @@ SET SaleDate2 = CONVERT (date, SaleDate)
 SELECT SaleDate2, CONVERT (date, SaleDate)
 FROM NashvilleHousing
 
--- Populate Missing in Property Address - Using ParcelID
+### Populate Missing in Property Address - Using ParcelID
 
 Select *
 From NashvilleHousing
@@ -84,7 +84,7 @@ JOIN NashvilleHousing NH2
 Where NH1.PropertyAddress is null
 
 
--- Breaking out Address into Individual Columns (Address, City, State)
+### Breaking out Property Address into Individual Columns (Address, City)
 
 SELECT PropertyAddress
 From NashvilleHousing
@@ -109,7 +109,8 @@ UPDATE NashvilleHousing
 SET Property_City = SUBSTRING(PropertyAddress, CHARINDEX(',' , PropertyAddress) +1, LEN(PropertyAddress))
 
 
--- Owner Address
+### Breaking out Property Address into Individual Columns (Address, City, State)
+
 Select OwnerAddress
 From NashvilleHousing
 Where OwnerAddress is null
@@ -158,7 +159,7 @@ UPDATE NashvilleHousing
 SET Owner_State = PARSENAME(REPLACE(OwnerAddress, ',', '.'), 1)
 
 
--- Change Y and N to Yes and No in "Sold as Vacant" column:
+### Change Y and N to Yes and No in "Sold as Vacant" column:
 
 SELECT DISTINCT (SoldAsVacant), COUNT (SoldAsVacant)
 From NashvilleHousing
@@ -184,7 +185,7 @@ CASE
 	 ELSE  SoldAsVacant
 END
 
--- Remove Duplicates - Use CTE:
+### Remove Duplicates - Use CTE:
 
 WITH RowNumCTE AS (
 SELECT *,
@@ -226,13 +227,13 @@ DELETE
 From RowNumCTE
 WHERE row_num > 1
 
--- Delete Unused Columns:
+### Delete Unused Columns:
 
 ALTER TABLE NashvilleHousing
 DROP COLUMN PropertyAddress, SaleDate, OwnerAddress, TaxDistrict
 
 
--- Get Summary Statistics for Numeric Values:
+### Get Summary Statistics for Numeric Values:
 
 SELECT 
 
@@ -271,7 +272,7 @@ SELECT
 
 FROM NashvilleHousing
 
--- Count Unique Values in Categorical columns:
+### Count Unique Values in Categorical columns:
 
 SELECT LandUse, COUNT (*) AS CountLandUse
 FROM NashvilleHousing
@@ -293,7 +294,7 @@ FROM NashvilleHousing
 GROUP BY Owner_State
 ORDER BY CountOwnerState DESC
 
--- Average Sales Price per City:
+### Average Sales Price per City:
 
 SELECT Property_City, AVG (SalePrice) AS avg_SalePrice_City
 FROM NashvilleHousing
@@ -305,7 +306,7 @@ FROM NashvilleHousing
 GROUP BY LandUse
 ORDER BY avg_SalePrice_LandUse DESC
 
--- Distribution of property types by city:
+### Distribution of property types by city:
 
 SELECT Property_City, LandUse, COUNT (*) AS frequency
 FROM NashvilleHousing
