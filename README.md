@@ -2,7 +2,7 @@
 
 ## SQL Query
 
--- Check Data (Top 10):
+#-- Check Data (Top 10):
 
 SELECT TOP (10) *
 FROM NashvilleHousing
