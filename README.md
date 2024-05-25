@@ -21,6 +21,7 @@ FROM NashvilleHousing
 -- Check for Missing Values:
 
 SELECT 
+
     SUM(CASE WHEN UniqueID  IS NULL THEN 1 ELSE 0 END) AS missing_UniqueID,
     SUM(CASE WHEN ParcelID IS NULL THEN 1 ELSE 0 END) AS missing_ParcelID ,
     SUM(CASE WHEN PropertyAddress IS NULL THEN 1 ELSE 0 END) AS missing_PropertyAddress,
@@ -35,6 +36,7 @@ SELECT
 	SUM(CASE WHEN TotalValue IS NULL THEN 1 ELSE 0 END) AS missing_TotalValue,
 	SUM(CASE WHEN YearBuilt IS NULL THEN 1 ELSE 0 END) AS missing_YearBuilt,
 	SUM(CASE WHEN Acreage IS NULL THEN 1 ELSE 0 END) AS missing_Acreage
+ 
 FROM NashvilleHousing
 
 -- Standardize Date Format:
