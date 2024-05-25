@@ -90,8 +90,10 @@ SELECT PropertyAddress
 From NashvilleHousing
 
 SELECT
+
 SUBSTRING(PropertyAddress, 1, CHARINDEX(',' , PropertyAddress)-1) AS P_Address,
 SUBSTRING(PropertyAddress, CHARINDEX(',' , PropertyAddress) +1, LEN(PropertyAddress)) AS P_City
+
 From NashvilleHousing
 
 ALTER TABLE NashvilleHousing
@@ -128,9 +130,11 @@ PARSENAME(OwnerAddress, 1) -- Nothing will happen because it only works with per
 From NashvilleHousing
 
 SELECT
+
 PARSENAME(REPLACE(OwnerAddress, ',', '.'), 3),
 PARSENAME(REPLACE(OwnerAddress, ',', '.'), 2) ,
 PARSENAME(REPLACE(OwnerAddress, ',', '.'), 1) 
+
 From NashvilleHousing
 
 -- add column
@@ -162,14 +166,18 @@ GROUP BY SoldAsVacant
 -- ORDER BY 2
 
 SELECT SoldAsVacant,
+
 CASE WHEN  SoldAsVacant = 'Y' THEN 'Yes'
 	 WHEN  SoldAsVacant = 'N' THEN 'No'
 	 ELSE  SoldAsVacant
 	 END
+
 From NashvilleHousing
 
 UPDATE NashvilleHousing
+
 SET SoldAsVacant = 
+
 CASE
 	 WHEN  SoldAsVacant = 'Y' THEN 'Yes'
 	 WHEN  SoldAsVacant = 'N' THEN 'No'
@@ -199,6 +207,7 @@ ORDER BY PropertyAddress
 
 
 WITH RowNumCTE AS (
+
 SELECT *,
 	ROW_NUMBER() OVER(
 	PARTITION BY ParcelID,
@@ -209,8 +218,9 @@ SELECT *,
 				 ORDER BY
 					UniqueID
 					) row_num
+
 From NashvilleHousing
---ORDER BY ParcelID
+
 )
 DELETE
 From RowNumCTE
@@ -225,6 +235,7 @@ DROP COLUMN PropertyAddress, SaleDate, OwnerAddress, TaxDistrict
 -- Get Summary Statistics for Numeric Values:
 
 SELECT 
+
     AVG(SalePrice) AS avg_SalePrice,
     MIN(SalePrice) AS min_SalePrice,
     MAX(SalePrice) AS max_SalePrice,
@@ -257,6 +268,7 @@ SELECT
     MIN(HalfBath) AS min_HalfBath,
     MAX(HalfBath) AS max_HalfBath,
     STDEV(HalfBath) AS stdev_HalfBath
+
 FROM NashvilleHousing
 
 -- Count Unique Values in Categorical columns:
